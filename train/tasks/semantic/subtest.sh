@@ -1,0 +1,1 @@
+python validate_submission.py --task segmentation /mnt/nas/code/Solingen_MOT/range/fpsnet/train/tasks/semantic/logs/2025-5-02-13:03/infer/test.zip /mnt/nas/Daten/kitti_daten/KITTI/segmentation/dataset

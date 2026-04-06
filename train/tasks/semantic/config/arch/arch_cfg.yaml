@@ -5,7 +5,7 @@ train:
   loss: "xentropy"       # must be either xentropy or iou
   Lovasz_softmax: True
   max_epochs: 120
-  lr: 0.0005              # sgd learning rate
+  lr: 0.001              # sgd learning rate
   wup_epochs: 1            # warmup during first XX epochs (can be float)
   momentum: 0.9            # sgd momentum
   lr_decay: 0.99           # learning rate decay per epoch after initial cycle (from min lr)
@@ -74,8 +74,8 @@ post:
     use: True
     train: False
     params:
-      knn: 7
-      search: 5
+      knn: 10
+      search: 7
       sigma: 1.0 
       cutoff: 1.0
 
@@ -94,7 +94,7 @@ dataset:
     fov_down: -25 
     img_prop:
       width: 1024
-      height: 128
+      height: 64
     img_means: #range,x,y,z,signal
       - 12.12
       - 10.88

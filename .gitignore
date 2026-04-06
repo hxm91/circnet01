@@ -1,3 +1,14 @@
 train/tasks/semantic/logs/
-
 train/tasks/semantic/wandb/
+train/tasks/semantic/utils/__pycache__/
+train/tasks/semantic/postproc/__pycache__/
+train/tasks/semantic/moduls/__pycache__/
+train/tasks/semantic/logs/__pycache__/
+train/tasks/semantic/decoders/__pycache__/
+train/tasks/semantic/dataset/__pycache__/
+train/tasks/semantic/__pycache__/
+train/tasks/vis/__pycache__/
+train/tasks/tasks/__pycache__/
+train/common/__pycache__/
+train/common/sync_batchnorm/__pycache__/
+train/backbones/__pycache__/

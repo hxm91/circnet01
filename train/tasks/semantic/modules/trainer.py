@@ -24,7 +24,7 @@ import sys
 sys.path.append('..')
 from common.logger import Logger
 from common.avgmeter import *
-from common.sync_batchnorm.batchnorm import convert_model
+# from common.sync_batchnorm.batchnorm import convert_model
 from common.warmupLR import *
 from tasks.semantic.modules.segmentator import *
 from tasks.semantic.modules.ioueval import *
@@ -156,21 +156,15 @@ class Trainer():
         print(f'--------------------------------')
         
     
-        if torch.cuda.is_available() and len(gpu_ids) > 0:
+        if torch.cuda.is_available() and len(gpu_ids) == 1:
             cudnn.benchmark = True
             cudnn.fastest = True
             self.gpu = True
             self.n_gpus = 1
             self.model.cuda()
-        if len(gpu_ids) > 1:
-            cudnn.benchmark = True
-            cudnn.fastest = True
-            self.gpu = True
-            self.n_gpus = len(gpu_ids)
-            print("Let's use", self.n_gpus, "GPUs!")
-            self.model = torch.nn.DataParallel(self.model)
-            self.model = convert_model(self.model).cuda()  # sync batchnorm
-            self.multi_gpu = True
+        else:
+            print(f'check up cuda status: {torch.cuda.is_available()} and {len(gpu_ids)} gpus are available')
+        
             
         if self.ARCH["post"]["KNN"]["use"]:
             self.post = KNN(self.ARCH["post"]["KNN"]["params"], self.parser.get_n_classes())
@@ -187,10 +181,7 @@ class Trainer():
         else:
             self.LS_criterion = None
 
-        if self.n_gpus > 1:
-            self.criterion = nn.DataParallel(self.criterion).cuda()  
-            if 'LS_criterion' in self.ARCH["train"] and self.ARCH["train"]['Lovasz_softmax']:
-                self.LS_criterion = nn.DataParallel(self.LS_criterion).cuda()
+        
         
         # optimizer
         if self.ARCH["post"]["CRF"]["use"] and self.ARCH["post"]["CRF"]["train"]:
@@ -534,7 +525,7 @@ class Trainer():
         epoch_size = len(train_loader)
         
         fine_tuen_flag = False
-        if epoch>=10:
+        if epoch>=50:
             print (f'now fine tune')
             for name, param in model.named_parameters():
                 if 'backbone' in name:
